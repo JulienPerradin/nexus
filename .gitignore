@@ -1,0 +1,8 @@
+__pycache__/
+archive/
+old/
+doc/
+build/
+clstr.egg-info/
+dist/
+tests/results/quick-test/

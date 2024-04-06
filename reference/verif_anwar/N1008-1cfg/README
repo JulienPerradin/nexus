@@ -1,0 +1,6 @@
+- Les fichiers p.avsz-siX-X.tot contient la longueur de correlation sur la 2eme colonne, et la taille moyenne sur la 3eme colonne. La 4eme colonne faut negliger.
+- Les fichiers p.big-siX-X.tot contient le nombres de clusters sur la 2eme colonne et taille du plus
+gros cluster sur la 3eme colonne.
+- Les fichiers p.percol-siX-X.tot contient la probabilité de percolation en 3D, 2D et 1D, sur la
+2eme, 3eme et 4eme colonne, respectivement.
+- Les fichiers p.ping-siX-X.tot contient P_infini en 3D, 2D et 1D, sur la 2eme, 3eme et 4eme colonne, respectivement.

@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11.7'  # Use the version of Python you need
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # If you have a requirements.txt file
+
+      - name: Build and check package
+        run: |
+          python setup.py sdist bdist_wheel
+          pip install twine
+          twine check dist/*
+
+      - name: Publish package
+        if: github.ref == 'refs/heads/main'  # Only run this step for pushes to main
+        run: |
+          pip install twine
+          echo "__token__:${{ secrets.PYPI_API_TOKEN }}" > ~/.pypirc
+          twine upload dist/*
