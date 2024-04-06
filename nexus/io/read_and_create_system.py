@@ -59,7 +59,7 @@ def read_and_create_system(file_path, frame, frame_size, settings, cutoffs, star
     
     # import extension
     extension = settings.extension.get_value()
-    module = importlib.import_module(f"clstr.extensions.{extension}")
+    module = importlib.import_module(f"nexus.extensions.{extension}")
     
     system = System(settings)
     
