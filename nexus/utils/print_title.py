@@ -7,17 +7,17 @@ def print_title(__version__) -> None:
       - None.
     """
     title = r'''
-                                                           
-                                                           
-      .g8"""bgd `7MMF'       .M"""bgd MMP""MM""YMM `7MM"""Mq.  
-    .dP'     `M   MM        ,MI    "Y P'   MM   `7   MM   `MM. 
-    dM'       `   MM        `MMb.          MM        MM   ,M9  
-    MM            MM          `YMMNq.      MM        MMmmdM9   
-    MM.           MM      , .     `MM      MM        MM  YM.   
-    `Mb.     ,'   MM     ,M Mb     dM      MM        MM   `Mb. 
-      `"bmmmd'  .JMMmmmmMMM P"Ybmmd"     .JMML.    .JMML. .JMM.
-                                                           
-                                                           
+                                                            
+                                                            
+`7MN.   `7MF'`7MM"""YMM  `YMM'   `MP'`7MMF'   `7MF'.M"""bgd 
+  MMN.    M    MM    `7    VMb.  ,P    MM       M ,MI    "Y 
+  M YMb   M    MM   d       `MM.M'     MM       M `MMb.     
+  M  `MN. M    MMmmMM         MMb      MM       M   `YMMNq. 
+  M   `MM.M    MM   Y  ,    ,M'`Mb.    MM       M .     `MM 
+  M     YMM    MM     ,M   ,P   `MM.   YM.     ,M Mb     dM 
+.JML.    YM  .JMMmmmmMMM .MM:.  .:MMa.  `bmmmmd"' P"Ybmmd"  
+                                                            
+                                                            
     '''
     print(title)
     print(f"__version__ \u279c\t {__version__}\n")
