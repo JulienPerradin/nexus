@@ -1,5 +1,5 @@
 # Import the package
-import clstr
+import nexus
 
 # Load trajectory data
 # /!\ Only extended XYZ files are supported
@@ -9,7 +9,7 @@ import clstr
 trajectory = "tests/inputs/SiO2/1008/sio2-1008at-1frame/pos20.xyz"
 
 # Initialize settings
-settings = clstr.settings.Settings(extension="SiOz")
+settings = nexus.settings.Settings(extension="SiOz")
 
 # Set project name, this will be used to name the output directory in the export directory
 settings.name_of_the_project.set_value('quick-test')
@@ -65,7 +65,7 @@ settings.cluster_settings.set_cluster_parameter("polyhedra", [[4, 4], [4, 5], [5
 # Run the main function with the provided settings : 'bond' criteria
 
 print("Processing the trajectory with 'bond' criteria ...")
-clstr.main(settings)
+nexus.main(settings)
 
 # Set to not overwrite results to compare with the previous results (optional, default is True)
 settings.overwrite_results.set_value(False)
@@ -77,7 +77,7 @@ settings.cluster_settings.set_cluster_parameter("polyhedra", [[4, 4], [4, 5], [5
 
 # Run a second time the main function with new cluster settings : 'distance' criteria
 print("Processing the trajectory with 'distance' criteria ...")
-clstr.main(settings)
+nexus.main(settings)
 
 # Print the path to the results
 print("\n\n\t\tAll trajectories have been processed successfully.")
