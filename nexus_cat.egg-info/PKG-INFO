@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: nexus-cat
+Version: 0.1.0
+Summary: Nexus is a Cluster Analysing Toolkit package for atomic systems.
+Home-page: https://github.com/JulienPerradin/clstr
+Author: Julien Perradin
+Author-email: julien.perradin@umontpellier.fr
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: tqdm
+Requires-Dist: natsort
