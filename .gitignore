@@ -6,3 +6,4 @@ build/
 nexus_cat.egg-info/
 dist/
 tests/results/quick-test/
+reference-check/
