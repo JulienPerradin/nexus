@@ -11,7 +11,7 @@
 To install `nexus-cat`, first clone this repository as you please, for example with SSH:
 
 ```bash
-git clone git@github.com:JulienPerradin/nexus-cat.git
+git clone git@github.com:JulienPerradin/nexus.git
 ```
 Then you can use pip, it will install dependencies and the main package in your Python environment:
 
