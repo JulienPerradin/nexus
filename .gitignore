@@ -3,6 +3,6 @@ archive/
 old/
 doc/
 build/
-clstr.egg-info/
+nexus_cat.egg-info/
 dist/
 tests/results/quick-test/
