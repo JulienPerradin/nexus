@@ -75,7 +75,12 @@ def read_and_create_system(file_path, frame, frame_size, settings, cutoffs, star
         sum_skipped = 0
         
         # Read the atoms coordinates in the frame
-        for i in tqdm(range(frame_size-header), desc="Reading file", unit="atoms", leave=False, colour="BLUE"):
+        if settings.quiet.get_value() == False:
+            progress_bar = tqdm(range(frame_size-header), desc=f"Reading frame {frame}", unit="atoms", leave=False, colour="BLUE")
+        else:
+            progress_bar = range(frame_size-header)
+            
+        for i in progress_bar:
             
             line = f.readline()
             

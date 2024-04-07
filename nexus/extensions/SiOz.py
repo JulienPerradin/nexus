@@ -331,13 +331,17 @@ def find_extra_clusters(atoms:list, box:Box, counter_c:int, settings:object) -> 
     number_of_nodes = 0
     
     color_gradient = generate_color_gradient(len(networking_atoms))
-    progress_bar = tqdm(networking_atoms, desc=f"Finding {connectivity} clusters", colour='BLUE', leave=False)
+    if settings.quiet.get_value() == False:
+        progress_bar = tqdm(networking_atoms, desc=f"Finding {connectivity} clusters", colour='BLUE', leave=False)
+    else:
+        progress_bar = networking_atoms
     colour = 0
     for atom in progress_bar:
         # Update progress bar
-        progress_bar.set_description(f"Finding {connectivity} clusters ...")
-        progress_bar.colour = "#%02x%02x%02x" % color_gradient[colour]
-        colour += 1
+        if settings.quiet.get_value() == False:
+            progress_bar.set_description(f"Finding {connectivity} clusters ...")
+            progress_bar.colour = "#%02x%02x%02x" % color_gradient[colour]
+            colour += 1
         
         if criteria == 'distance':
             for neighbour in atom.get_neighbours():
@@ -363,15 +367,20 @@ def find_extra_clusters(atoms:list, box:Box, counter_c:int, settings:object) -> 
         clusters_found.setdefault(root.id, []).append(atom)
     
     color_gradient = generate_color_gradient(len(clusters_found))
-    progress_bar = tqdm(range(len(clusters_found)), desc=f"Calculating {connectivity} clusters properties ...", colour='GREEN', leave=False)
+    if settings.quiet.get_value() == False:
+        progress_bar = tqdm(range(len(clusters_found)), desc=f"Calculating {connectivity} clusters properties ...", colour='GREEN', leave=False)
+    else:
+        progress_bar = range(len(clusters_found))
+        
     colour = 0
     for i in progress_bar:
         cluster = list(clusters_found.values())[i]
         
         # Update progress bar
-        progress_bar.set_description(f"Calculating {connectivity} clusters properties ...")
-        progress_bar.colour = "#%02x%02x%02x" % color_gradient[colour]
-        colour += 1
+        if settings.quiet.get_value() == False:
+            progress_bar.set_description(f"Calculating {connectivity} clusters properties ...")
+            progress_bar.colour = "#%02x%02x%02x" % color_gradient[colour]
+            colour += 1
         
         for atom in cluster:
             root = find(atom)

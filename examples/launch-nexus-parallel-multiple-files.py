@@ -1,7 +1,7 @@
 import nexus
 import os
 from tqdm import tqdm
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 
 def process_trajectory(trajectory, output, pressure):
     settings = nexus.settings.Settings(extension="SiOz")
@@ -92,7 +92,7 @@ settings = nexus.settings.Settings(extension="SiOz")
 settings.print_clusters_positions.disable_warnings = True # Disable warnings if false, it ask to user to confirm the action (every loop)
 settings.print_clusters_positions.set_value(False)
 
-with ThreadPoolExecutor(max_workers=8) as executor:
+with ProcessPoolExecutor(max_workers=8) as executor:
     # Parallel processing of the trajectories
     futures = []
     for i, trajectory in progress_bar:

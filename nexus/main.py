@@ -77,7 +77,10 @@ def main(settings):
         settings.frames_to_analyse.set_value(end-start)
 
     color_gradient = generate_color_gradient(end-start)
-    progress_bar = tqdm(range(start, end), desc="Analysing trajectory ... ", unit='frame', leave=False, colour="YELLOW")
+    if settings.quiet.get_value():
+        progress_bar = range(start, end)
+    else:
+        progress_bar = tqdm(range(start, end), desc="Analysing trajectory ... ", unit='frame', leave=False, colour="YELLOW")
     
     # Create the Result objects
     results_average_cluster_size = {}
@@ -134,8 +137,9 @@ def main(settings):
     # Loop over the frames in trajectory
     for i in progress_bar:
         # Update progress bar
-        progress_bar.set_description(f"Analysing frame n°{i}")
-        progress_bar.colour = "#%02x%02x%02x" % color_gradient[i-start]
+        if not settings.quiet.get_value():
+            progress_bar.set_description(f"Analysing frame n°{i}")
+            progress_bar.colour = "#%02x%02x%02x" % color_gradient[i-start]
         
         # Create the System object at the current frame
         system = io.read_and_create_system(input_file, i, n_atoms+n_header, settings, cutoffs, start, end)

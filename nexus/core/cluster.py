@@ -226,7 +226,7 @@ class Cluster:
             self.order_parameter[1] = self.size / self.number_of_nodes
             self.order_parameter[2] = self.size / self.number_of_nodes
             
-    def calculate_unwrapped_positions(self, criteria, chain):
+    def calculate_unwrapped_positions(self, criteria, chain, quiet=False) -> None:
         r"""
         Calculate the unwrapped positions of the atoms in the cluster to make it continuous.
         
@@ -258,53 +258,98 @@ class Cluster:
             node_1 = chain[0]
             bridge = chain[1]
             node_2 = chain[2]
-            while tqdm(stack, desc="Unwrapping clusters ...", colour="YELLOW", leave=False, unit='atom'):
-                current_atom = stack.pop()
-                if current_atom.element == node_1:
-                    for first_neighbour in current_atom.neighbours:
-                        if first_neighbour.element == bridge:
-                            for second_neighbour in first_neighbour.neighbours:
-                                if (
-                                    second_neighbour.element == node_2 
-                                    and second_neighbour.id not in dict_positions
-                                    and second_neighbour.cluster_id == self.root_id
-                                ):
-                                    # Compute relative position from the current atom to its second_neighbour
-                                    relative_position = self.unwrap_position(
-                                        second_neighbour.position - current_atom.position, box_size
-                                    )
+            if not quiet:
+                while tqdm(stack, desc="Unwrapping clusters ...", colour="YELLOW", leave=False, unit='atom'):
+                    current_atom = stack.pop()
+                    if current_atom.element == node_1:
+                        for first_neighbour in current_atom.neighbours:
+                            if first_neighbour.element == bridge:
+                                for second_neighbour in first_neighbour.neighbours:
+                                    if (
+                                        second_neighbour.element == node_2 
+                                        and second_neighbour.id not in dict_positions
+                                        and second_neighbour.cluster_id == self.root_id
+                                    ):
+                                        # Compute relative position from the current atom to its second_neighbour
+                                        relative_position = self.unwrap_position(
+                                            second_neighbour.position - current_atom.position, box_size
+                                        )
 
-                                    # Accumulate relative position to get unwrapped position
-                                    dict_positions[second_neighbour.id] = (
-                                        dict_positions[current_atom.id] + relative_position
-                                    )
+                                        # Accumulate relative position to get unwrapped position
+                                        dict_positions[second_neighbour.id] = (
+                                            dict_positions[current_atom.id] + relative_position
+                                        )
 
-                                    stack.append(second_neighbour)
+                                        stack.append(second_neighbour)
+            else:
+                while stack:
+                    current_atom = stack.pop()
+                    if current_atom.element == node_1:
+                        for first_neighbour in current_atom.neighbours:
+                            if first_neighbour.element == bridge:
+                                for second_neighbour in first_neighbour.neighbours:
+                                    if (
+                                        second_neighbour.element == node_2 
+                                        and second_neighbour.id not in dict_positions
+                                        and second_neighbour.cluster_id == self.root_id
+                                    ):
+                                        # Compute relative position from the current atom to its second_neighbour
+                                        relative_position = self.unwrap_position(
+                                            second_neighbour.position - current_atom.position, box_size
+                                        )
+
+                                        # Accumulate relative position to get unwrapped position
+                                        dict_positions[second_neighbour.id] = (
+                                            dict_positions[current_atom.id] + relative_position
+                                        )
+
+                                        stack.append(second_neighbour)                            
                             
         if criteria == "distance":
             node_1 = chain[0]
             node_2 = chain[1]
             
-            while tqdm(stack, desc="Unwrappring clusters ...", colour="YELLOW", leave=False, unit='atom'):
-                current_atom = stack.pop()
-                if current_atom.element == node_1:
-                    for neighbour in current_atom.neighbours:
-                        if (neighbour.element == node_2
-                            and neighbour.id not in dict_positions
-                            and neighbour.cluster_id == self.root_id):
-                            
-                            # Compute relative position from the current atom to its neighbour
-                            relative_position = self.unwrap_position(
-                                neighbour.position - current_atom.position, box_size
-                            )
-                            
-                            # Accumulate relative position to get unwrapped position
-                            dict_positions[neighbour.id] = (
-                                dict_positions[current_atom.id] + relative_position
-                            )
-                            
-                            stack.append(neighbour)
-        
+            if not quiet:
+                while tqdm(stack, desc="Unwrappring clusters ...", colour="YELLOW", leave=False, unit='atom'):
+                    current_atom = stack.pop()
+                    if current_atom.element == node_1:
+                        for neighbour in current_atom.neighbours:
+                            if (neighbour.element == node_2
+                                and neighbour.id not in dict_positions
+                                and neighbour.cluster_id == self.root_id):
+                                
+                                # Compute relative position from the current atom to its neighbour
+                                relative_position = self.unwrap_position(
+                                    neighbour.position - current_atom.position, box_size
+                                )
+                                
+                                # Accumulate relative position to get unwrapped position
+                                dict_positions[neighbour.id] = (
+                                    dict_positions[current_atom.id] + relative_position
+                                )
+                                
+                                stack.append(neighbour)
+            else:
+                while stack:
+                    current_atom = stack.pop()
+                    if current_atom.element == node_1:
+                        for neighbour in current_atom.neighbours:
+                            if (neighbour.element == node_2
+                                and neighbour.id not in dict_positions
+                                and neighbour.cluster_id == self.root_id):
+                                
+                                # Compute relative position from the current atom to its neighbour
+                                relative_position = self.unwrap_position(
+                                    neighbour.position - current_atom.position, box_size
+                                )
+                                
+                                # Accumulate relative position to get unwrapped position
+                                dict_positions[neighbour.id] = (
+                                    dict_positions[current_atom.id] + relative_position
+                                )
+                                
+                                stack.append(neighbour)
+                                
         self.set_indices_and_positions(dict_positions)
 
     def unwrap_position(self, vector, box_size):

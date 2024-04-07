@@ -218,7 +218,10 @@ class System:
             - None.
         """
         color_gradient = generate_color_gradient(len(self.atoms))
-        progress_bar = tqdm(self.atoms, desc="Wrapping positions inside the box ...", colour="#0dff00", leave=False, unit="atom")
+        if self.settings.quiet.get_value() == False:
+            progress_bar = tqdm(self.atoms, desc="Wrapping positions inside the box ...", colour="#0dff00", leave=False, unit="atom")
+        else:
+            progress_bar = self.atoms
         color = 0
         for atom in progress_bar:
             # Updating progress bar
@@ -275,13 +278,17 @@ class System:
         
         # Set the progress bar
         color_gradient = generate_color_gradient(len(positions))
-        progress_bar = tqdm(range(len(positions)), desc="Fetching nearest neighbours ...", colour="#00ffff", leave=False, unit="atom")
+        if self.settings.quiet.get_value() == False:
+            progress_bar = tqdm(range(len(positions)), desc="Fetching nearest neighbours ...", colour="#00ffff", leave=False, unit="atom")
+        else:
+            progress_bar = range(len(positions))
         
         # Loop over the atomic positions
         for i in progress_bar:
             # Update progress bar
-            progress_bar.set_description(f"Fetching nearest neighbours {i} ...")
-            progress_bar.colour = "#%02x%02x%02x" % color_gradient[i]
+            if self.settings.quiet.get_value() == False:
+                progress_bar.set_description(f"Fetching nearest neighbours {i} ...")
+                progress_bar.colour = "#%02x%02x%02x" % color_gradient[i]
             
             # Process with pbc applied
             # Query the neighbouring atoms within the cutoff distance
@@ -676,13 +683,17 @@ class System:
         number_of_nodes = 0
         
         color_gradient = generate_color_gradient(len(networking_atoms))
-        progress_bar = tqdm(networking_atoms, desc=f"Finding clusters {connectivity} ...", colour="BLUE", leave=False)
+        if self.settings.quiet.get_value() == False:
+            progress_bar = tqdm(networking_atoms, desc=f"Finding clusters {connectivity} ...", colour="BLUE", leave=False)
+        else:
+            progress_bar = networking_atoms
         colour = 0
         for atom in progress_bar:
             # Update progress bar
-            progress_bar.set_description(f"Finding clusters {connectivity} ...")
-            progress_bar.colour = "#%02x%02x%02x" % color_gradient[colour]
-            colour += 1
+            if self.settings.quiet.get_value() == False:
+                progress_bar.set_description(f"Finding clusters {connectivity} ...")
+                progress_bar.colour = "#%02x%02x%02x" % color_gradient[colour]
+                colour += 1
             
             if criteria == 'distance':
                 for neighbour in atom.neighbours:
@@ -703,15 +714,19 @@ class System:
             clusters_found.setdefault(root.id, []).append(atom)
         
         color_gradient = generate_color_gradient(len(clusters_found))
-        progress_bar = tqdm(range(len(clusters_found)), desc=f"Calculating clusters properties {connectivity} ...", colour="GREEN", leave=False)
+        if self.settings.quiet.get_value() == False:
+            progress_bar = tqdm(range(len(clusters_found)), desc=f"Calculating clusters properties {connectivity} ...", colour="GREEN", leave=False)
+        else:
+            progress_bar = range(len(clusters_found))
         colour = 0
         for i in progress_bar:
             cluster = list(clusters_found.values())[i]
             
             # Update progress bar
-            progress_bar.set_description(f"Calculating clusters properties {connectivity} ...")
-            progress_bar.colour = "#%02x%02x%02x" % color_gradient[colour]
-            colour += 1
+            if self.settings.quiet.get_value() == False:
+                progress_bar.set_description(f"Calculating clusters properties {connectivity} ...")
+                progress_bar.colour = "#%02x%02x%02x" % color_gradient[colour]
+                colour += 1
             
             for atom in cluster:
                 root = self.find(atom)
