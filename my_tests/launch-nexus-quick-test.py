@@ -12,7 +12,7 @@ trajectory = "tests/inputs/SiO2/1008/sio2-1008at-1frame/pos20.xyz"
 settings = nexus_test.settings.Settings(extension="SiOz")
 
 # Set the verbosity of the output
-settings.quiet.set_value(True)
+settings.quiet.set_value(False)
 
 # Set project name, this will be used to name the output directory in the export directory
 settings.name_of_the_project.set_value('quick-test')
@@ -54,8 +54,8 @@ settings.pressure.set_value(10.0)
 
 # Set to print cluster positions (optional, default is False, if set to True, the user will be prompted to confirm the action)
 # uncomment the following to remove the warning
-# settings.print_clusters_positions.disable_warnings = True
-settings.print_clusters_positions.set_value(False)
+settings.print_clusters_positions.disable_warnings = True
+settings.print_clusters_positions.set_value(True)
 
 # Set to not overwrite results to compare with the previous results (optional, default is True)
 settings.overwrite_results.set_value(True)
@@ -80,7 +80,7 @@ settings.cluster_settings.set_cluster_parameter("polyhedra", [[4, 4], [4, 5], [5
 
 # Run a second time the main function with new cluster settings : 'distance' criteria
 # print("Processing the trajectory with 'distance' criteria ...")
-nexus_test.main(settings)
+# nexus_test.main(settings)
 
 # Print the path to the results
 print("\n\n\t\tAll trajectories have been processed successfully.")

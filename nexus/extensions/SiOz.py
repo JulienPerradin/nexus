@@ -357,7 +357,7 @@ def find_extra_clusters(atoms:list, box:Box, counter_c:int, settings:object) -> 
                         if (atom.element == node_1 and second_neighbour.element == node_2
                             and atom.coordination == 6 and second_neighbour.coordination == 6
                             and atom.number_of_edges == 2 and second_neighbour.number_of_edges == 2): 
-                            union(neighbour, atom)
+                            union(second_neighbour, atom)
         
     clusters_found = {}
     local_clusters = []
@@ -394,7 +394,7 @@ def find_extra_clusters(atoms:list, box:Box, counter_c:int, settings:object) -> 
             if len(cluster) > 1:
                 number_of_nodes += 1
         
-        current_cluster.calculate_unwrapped_positions(criteria, chain)
+        current_cluster.calculate_unwrapped_positions(criteria, chain, settings.quiet.get_value())
         current_cluster.calculate_center_of_mass()
         current_cluster.calculate_gyration_radius()
         current_cluster.calculate_percolation_probability()

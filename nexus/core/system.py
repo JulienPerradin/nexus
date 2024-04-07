@@ -741,7 +741,7 @@ class System:
                 if len(cluster) > 1:
                     number_of_nodes += 1
             
-            current_cluster.calculate_unwrapped_positions(criteria, chain)
+            current_cluster.calculate_unwrapped_positions(criteria, chain, self.settings.quiet.get_value())
             current_cluster.calculate_center_of_mass()
             current_cluster.calculate_gyration_radius()
             current_cluster.calculate_percolation_probability()
