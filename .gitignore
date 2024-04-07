@@ -7,3 +7,5 @@ nexus_cat.egg-info/
 dist/
 tests/results/quick-test/
 reference-check/
+nexus_test/
+my_tests/

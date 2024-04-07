@@ -225,9 +225,10 @@ class System:
         color = 0
         for atom in progress_bar:
             # Updating progress bar
-            progress_bar.set_description(f"Wrapping positions inside the box {atom.id} ...")
-            progress_bar.colour = "#%02x%02x%02x" % color_gradient[color]
-            color += 1
+            if self.settings.quiet.get_value() == False:
+                progress_bar.set_description(f"Wrapping positions inside the box {atom.id} ...")
+                progress_bar.colour = "#%02x%02x%02x" % color_gradient[color]
+                color += 1
             
             # Getting box dimensions at the current frame
             box_size = self.box.get_box_dimensions(self.frame)
