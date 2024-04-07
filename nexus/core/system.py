@@ -328,8 +328,6 @@ class System:
     
     #____________CLUSTERS METHODS____________
     
-    # TODO reorganize the getters, optimize the code #PRIO1
-    
     def get_all_clusters(self, connectivity:str) -> list:
         r"""
         Return the list of all Cluster objects associated with the given connectivity.
@@ -474,7 +472,7 @@ class System:
             return [0.0] * 3
         if len(cluster) > 1:
             # More than one percolating cluster
-            print(f"\tWARNING: More than one percolating cluster found for the connectivity {connectivity}. Taking the biggest one.")
+            # print(f"\tWARNING: More than one percolating cluster found for the connectivity {connectivity}. Taking the biggest one.")
             
             # get the biggest cluster
             cluster = max(cluster, key=lambda x: x.size)
@@ -505,7 +503,7 @@ class System:
             return [0.0] * 3
         if len(cluster) > 1:
             # More than one percolating cluster
-            print(f"\tWARNING: More than one percolating cluster found for the connectivity {connectivity}. Taking the biggest one.")
+            # print(f"\tWARNING: More than one percolating cluster found for the connectivity {connectivity}. Taking the biggest one.")
             
             # get the biggest cluster
             cluster = max(cluster, key=lambda x: x.size)
@@ -655,7 +653,6 @@ class System:
         
         list_of_elements, z1, z2 = self.decrypt_connectivity(connectivity)
         
-        # Error management #TODO enhanced this #PRIO3
         if criteria != "distance" and criteria != "bond":
             raise ValueError(f"\tERROR: Criteria '{criteria}' is not supported. Please select 'bond' or 'distance'.")
         for e in list_of_elements:

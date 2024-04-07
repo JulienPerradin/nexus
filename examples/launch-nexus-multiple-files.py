@@ -3,7 +3,7 @@ import os
 from tqdm import tqdm
 
 # Load trajectories, output names, and pressures from files
-directory = "../tests/inputs/SiO2/1008/sio2-1008at-1frame/"
+directory = "tests/inputs/SiO2/1008/sio2-1008at-11frames/"
 trajectories = []
 pressures = []
 outputs = []
@@ -37,7 +37,7 @@ settings = nexus.settings.Settings(extension="SiOz")
 
 # Enable print clusters positions
 settings.print_clusters_positions.disable_warnings = True # Disable warnings if false, it ask to user to confirm the action (every loop)
-settings.print_clusters_positions.set_value(True)
+settings.print_clusters_positions.set_value(False)
 
 # Loop over each trajectory
 for i, trajectory in progress_bar:
@@ -58,7 +58,7 @@ for i, trajectory in progress_bar:
     # Set various parameters
     settings.name_of_the_project.set_value(output)
     settings.extension.set_value("SiOz")
-    settings.export_directory.set_value(f"tests/results/sio2-1008at-1frame-all")
+    settings.export_directory.set_value(f"tests/results/sio2-1008at-11frames-all")
     settings.path_to_xyz_file.set_value(trajectory)
     
     settings.number_of_atoms.set_value(1008)

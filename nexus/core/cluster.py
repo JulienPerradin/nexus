@@ -165,8 +165,6 @@ class Cluster:
         # Normalize the sum by 0.5 s²
         self.gyration_radius = np.sqrt((0.5 / (self.size**2)) * self.gyration_radius) 
         
-        DEBUG = False
-                
     def calculate_percolation_probability(self) -> None:
         r"""
         Calculate the percolation probability of the cluster.

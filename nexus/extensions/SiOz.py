@@ -163,7 +163,7 @@ def calculate_structural_units(atoms) -> dict:
         - SiO4      : list of SiO4 tetrahedra
         - SiO5      : list of SiO5 pentahedra
         - SiO6      : list of SiO6 octahedra
-        - SiO7      : list of SiO7 eptahedra #PRIO3 check if "eptahedra" exists
+        - SiO7      : list of SiO7 eptahedra 
         - OSi1      : list of OSi1
         - OSi2      : list of OSi2
         - OSi3      : list of OSi3
@@ -199,7 +199,7 @@ def calculate_structural_units(atoms) -> dict:
         if counter == 7:
             SiO7.append(atom)
     
-    _debug_histogram_proportion_SiOz = np.histogram(coordination_SiOz, bins=[4,5,6,7,8], density=True) #DEBUG
+    _debug_histogram_proportion_SiOz = np.histogram(coordination_SiOz, bins=[4,5,6,7,8], density=True) 
     
     # Calculate the proportion of each OSiz units
     coordination_OSiz = []
@@ -215,7 +215,7 @@ def calculate_structural_units(atoms) -> dict:
         if counter == 4:
             OSi4.append(atom)
             
-    _debug_histogram_proportion_OSik = np.histogram(coordination_OSiz, bins=[1,2,3,4,5], density=True) #DEBUG
+    _debug_histogram_proportion_OSik = np.histogram(coordination_OSiz, bins=[1,2,3,4,5], density=True) 
     
     # Calculate the number of edge-sharing (2 oxygens shared by 2 silicons)
     for silicon in silicons:
@@ -350,7 +350,7 @@ def find_extra_clusters(atoms:list, box:Box, counter_c:int, settings:object) -> 
             for neighbour in atom.neighbours:
                 if neighbour.element == bridge:
                     for second_neighbour in neighbour.neighbours:
-                        if (atom.element == node_1 and second_neighbour == node_2
+                        if (atom.element == node_1 and second_neighbour.element == node_2
                             and atom.coordination == 6 and second_neighbour.coordination == 6
                             and atom.number_of_edges == 2 and second_neighbour.number_of_edges == 2): 
                             union(neighbour, atom)

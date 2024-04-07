@@ -523,9 +523,6 @@ class CorrelationLength(Result):
             - \(s_{i}\) is the size of the cluster \(i\),
             - \(N\) is the number of clusters.
         
-        
-        TODO : find out why there's a difference between the results obtained with the current implementation and the one in the original code.
-               The results are different at the low decimal places. #PRIO1
         """
 
         lists_r_s = {}

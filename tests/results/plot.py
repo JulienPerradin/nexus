@@ -50,12 +50,12 @@ for file in files:
 
     # get the reference data:
     ref_files = {
-        "average_cluster_size.dat" : '../../reference/sio2-1008at-11frames/AverageClusterSize.dat',
-        "biggest_cluster_size.dat" : '../../reference/sio2-1008at-11frames/BiggestClusterSize.dat',
-        "correlation_length.dat" : '../../reference/sio2-1008at-11frames/CorrelationLength.dat',
-        "percolation_probability.dat" : '../../reference/sio2-1008at-11frames/PercolationProbability1D.dat',
-        "order_parameter.dat" : '../../reference/sio2-1008at-11frames/Pinf.dat',
-        "spanning_cluster_size.dat" : '../../reference/sio2-1008at-11frames/SpanningClusterSize.dat',
+        "average_cluster_size.dat" : '../../reference-check/sio2-1008at-11frames/AverageClusterSize.dat',
+        "biggest_cluster_size.dat" : '../../reference-check/sio2-1008at-11frames/BiggestClusterSize.dat',
+        "correlation_length.dat" : '../../reference-check/sio2-1008at-11frames/CorrelationLength.dat',
+        "percolation_probability.dat" : '../../reference-check/sio2-1008at-11frames/PercolationProbability1D.dat',
+        "order_parameter.dat" : '../../reference-check/sio2-1008at-11frames/Pinf.dat',
+        "spanning_cluster_size.dat" : '../../reference-check/sio2-1008at-11frames/SpanningClusterSize.dat',
     }
     
     for k, v in ref_files.items():
@@ -88,7 +88,7 @@ for file in files:
         ["SiO4-SiO5", "Si4-Si5"],
         ["SiO5-SiO5", "Si5-Si5"],
         ["SiO5-SiO6", "Si5-Si6"],
-        ["SiO6-SiO6", "Si6-Si6"],
+        ["SiO6-SiO6", "Si6-Si6", "SiO6-SiO6-stishovite", "Si6-Si6-stishovite"],
         ["O2-O2", "O2-O3", "O3-O3"]
     ]
     

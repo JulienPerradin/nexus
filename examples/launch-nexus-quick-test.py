@@ -52,7 +52,7 @@ settings.pressure.set_value(10.0)
 # Set to print cluster positions (optional, default is False, if set to True, the user will be prompted to confirm the action)
 # uncomment the following to remove the warning
 # settings.print_clusters_positions.disable_warnings = True
-settings.print_clusters_positions.set_value(True)
+settings.print_clusters_positions.set_value(False)
 
 # Set to not overwrite results to compare with the previous results (optional, default is True)
 settings.overwrite_results.set_value(True)
@@ -77,7 +77,7 @@ settings.cluster_settings.set_cluster_parameter("polyhedra", [[4, 4], [4, 5], [5
 
 # Run a second time the main function with new cluster settings : 'distance' criteria
 print("Processing the trajectory with 'distance' criteria ...")
-nexus.main(settings)
+# nexus.main(settings)
 
 # Print the path to the results
 print("\n\n\t\tAll trajectories have been processed successfully.")
