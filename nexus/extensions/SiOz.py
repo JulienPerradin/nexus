@@ -324,7 +324,7 @@ def find_extra_clusters(atoms:list, box:Box, counter_c:int, settings:object) -> 
         
     networking_atoms = [atom for atom in atoms if (
         atom.get_element() == 'Si'
-        and atom.get_number_of_edges() == 2
+        and atom.get_number_of_edges() >= 2
         and atom.get_coordination() == 6
         )]
     
@@ -347,7 +347,7 @@ def find_extra_clusters(atoms:list, box:Box, counter_c:int, settings:object) -> 
             for neighbour in atom.get_neighbours():
                 if (atom.element == node_1 and neighbour.element == node_2
                     and atom.coordination == 6 and neighbour.coordination == 6
-                    and atom.number_of_edges == 2 and neighbour.number_of_edges == 2):
+                    and atom.number_of_edges >= 2 and neighbour.number_of_edges >= 2):
                     union(neighbour, atom)
         
         if criteria == 'bond':
@@ -356,7 +356,7 @@ def find_extra_clusters(atoms:list, box:Box, counter_c:int, settings:object) -> 
                     for second_neighbour in neighbour.neighbours:
                         if (atom.element == node_1 and second_neighbour.element == node_2
                             and atom.coordination == 6 and second_neighbour.coordination == 6
-                            and atom.number_of_edges == 2 and second_neighbour.number_of_edges == 2): 
+                            and atom.number_of_edges >= 2 and second_neighbour.number_of_edges >= 2): 
                             union(second_neighbour, atom)
         
     clusters_found = {}
