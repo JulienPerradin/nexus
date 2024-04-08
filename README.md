@@ -17,21 +17,22 @@
 - **Correlation length** $\xi$ : $$\xi^2 = \frac{\sum_s 2R_s²s²n_s(p)}{\sum_ss²n_s(p)}$$
   - with $n_s$ the number, $R_s$ the average gyration radius of clusters of size $s$ (ie number of polyhedra in the cluster).
   - 1 sized clusters and percolating clusters are not taken into account in the calculation.
-- **Percolation probability** $\Pi$ : $$
+- **Percolation probability** $\Pi$ :
+```math
 \Pi = \begin{cases}
 0 & \text{if } R_g < L_{box} \\
 1 & \text{if } R_g \geq L_{box} 
 \end{cases}
-$$
+```
   - with $L_{box}$ is the length of the simulation box.
   - Note: The percolation probability is calculated for each direction of the simulation box, a cluster can percolate in 1D, 2D or 3D. 
 
-- **Order parameter $P_∞$** : $$
-P_∞ = \begin{cases}
-0 & \text{if } \Pi = 0 \\
-\frac{s_{max}}{N} & \text{if } \Pi = 1 
+- **Order parameter $P_∞$** : 
+```math
+P_∞ = \begin{cases}0 & \text{if } \Pi = 0 \\\frac{s_{max}}{N} & \text{if } \Pi = 1 
 \end{cases}
-$$ 
+```
+ 
   - with $s_{max}$ the number of polyhedra in the biggest cluster, $N$ the total number of **connected** polyhedra in the system (1 sized clusters excluded).
   - Note : the order parameter is calculated with $\Pi$ in 1D. 
 
