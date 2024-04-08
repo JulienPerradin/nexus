@@ -35,7 +35,7 @@ Please refer to the documentation for more information on how to use the package
 
 ## Documentation
 
-The documentation is available [here](https://github.com/JulienPerradin/nexus-cat/tree/main/doc)
+The documentation is available [here](https://github.com/JulienPerradin/nexus/tree/main/doc)
 
 ## Contributing
 
