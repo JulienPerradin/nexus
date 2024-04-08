@@ -8,4 +8,4 @@ dist/
 tests/results/quick-test/
 reference-check/
 nexus_test/
-# my_tests/
+my_tests/
