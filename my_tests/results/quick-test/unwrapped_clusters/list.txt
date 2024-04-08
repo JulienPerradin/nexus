@@ -1,5 +1,0 @@
-my_tests/results/quick-test/unwrapped_clusters/SiO4-SiO4_0_all-in-one.xyz
-my_tests/results/quick-test/unwrapped_clusters/SiO4-SiO5_0_all-in-one.xyz
-my_tests/results/quick-test/unwrapped_clusters/SiO5-SiO5_0_all-in-one.xyz
-my_tests/results/quick-test/unwrapped_clusters/SiO5-SiO6_0_all-in-one.xyz
-my_tests/results/quick-test/unwrapped_clusters/SiO6-SiO6_0_all-in-one.xyz
