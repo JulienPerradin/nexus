@@ -26,12 +26,12 @@ $$
   - with $L_{box}$ is the length of the simulation box.
   - Note: The percolation probability is calculated for each direction of the simulation box, a cluster can percolate in 1D, 2D or 3D. 
 
-- **Order parameter $P_∞$** : \[
+- **Order parameter $P_∞$** : $$
 P_∞ = \begin{cases}
 0 & \text{if } \Pi = 0 \\
 \frac{s_{max}}{N} & \text{if } \Pi = 1 
 \end{cases}
-\] 
+$$ 
   - with $s_{max}$ the number of polyhedra in the biggest cluster, $N$ the total number of **connected** polyhedra in the system (1 sized clusters excluded).
   - Note : the order parameter is calculated with $\Pi$ in 1D. 
 
