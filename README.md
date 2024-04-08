@@ -4,7 +4,9 @@
 
 ## Description and features
 
-`nexus-cat` is a package designed to find clusters of connected polyhedra in an atomistic simulation trajectory. It provides functionality to analyze properties of the clusters such as the average cluster size, biggest cluster, gyration radius, and correlation length.
+`nexus-cat` is a package designed to find clusters of connected polyhedra in an atomistic simulation trajectory. It provides functionality to analyze cluster properties according to the percolation theory:
+- Average cluster size 
+  - $$\sum_s \frac{s^2n_s(p)}{\sum_s sn_s(p)}$$
 
 ## Installation
 
