@@ -38,7 +38,7 @@ P_∞ = \begin{cases}0 & \text{if } \Pi = 0 \\\frac{s_{max}}{N} & \text{if } \Pi
 
 ## Installation
 
-To install `nexus-cat`, first clone this repository as you please, for example with SSH:
+To install `nexus`, first clone this repository as you please, for example with SSH:
 
 ```bash
 git clone git@github.com:JulienPerradin/nexus.git
@@ -50,18 +50,18 @@ pip install nexus-cat==0.1.6
 ```
 
 
-## Usage
+## Usage with an example
 
 As a first example you can run the script `launch-nexus-quick-test.py`:
 
 ```bash
-cd nexus-cat/ 
+cd nexus/ 
 python examples/launch-nexus-quick-test.py
 ```
 
-This script will run the analysis on a small 1008 atoms SiO2 glass (300K, 10GPa)
+This script will run the analysis on a small 1008 atoms SiO2 glass (300K, 10GPa) located here : `tests/inputs/SiO2/1008/pos10.xyz` and will output the results in the `tests/results/quick-test` directory.
 
-Please refer to the documentation for more information on how to use the package. You will also find more examples in the `examples` folder.
+Please refer to the documentation for more informations on how to use the package. You will also find more examples in the `examples` folder.
 
 ## Documentation
 
