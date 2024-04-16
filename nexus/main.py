@@ -152,7 +152,8 @@ def main(settings):
         # Calculate the nearest neighbours of all atoms in the system.
         system.calculate_neighbours()
         
-        system.calculate_structural_units(settings.extension.get_value())
+        # Calculate the concentrations (ie, the number of sites in the lattice)
+        system.calculate_concentrations(settings.extension.get_value())
         
         for c in connectivities:
             system.find_clusters(c)
