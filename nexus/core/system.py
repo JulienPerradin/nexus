@@ -315,7 +315,7 @@ class System:
             self.atoms[i].filter_neighbours(distances)
             self.atoms[i].calculate_coordination()
     
-    def calculate_structural_units(self, extension) -> None:
+    def calculate_concentrations(self, extension) -> None:
         r"""
         Determine the structural units and other structural properties.
         - NOTE: this method is extension dependant.
@@ -330,13 +330,46 @@ class System:
         """
         
         module = importlib.import_module(f"nexus.extensions.{extension}")
-        
-        self.structural_units = module.calculate_structural_units(self.get_atoms())
+        criteria = self.settings.cluster_settings.get_value()['criteria']
+        self.concentrations = module.calculate_concentrations(self.get_atoms(), criteria)
     
     
     #____________CLUSTERS METHODS____________
     
-    def get_all_clusters(self, connectivity:str) -> list:
+    def set_concentrations(self, dict_units: dict, cluster_settings:dict) -> None:
+        r"""
+        Set the concentrations of the structural units.
+        
+        Parameters:
+        -----------
+            - dict_units (dict) : Dict of the structural units.
+            - cluster_settings (dict) : Dict of the cluster settings.
+        
+        Returns:
+        --------
+            - None.
+        """
+        
+        for connectivity, concentration in self.concentrations.items():
+            list_clusters = self.get_all_clusters(connectivity)
+            for cluster in list_clusters:
+                cluster.concentration = concentration
+    
+    def get_concentration(self, connectivity: str) -> float:
+        r"""
+        Return the concentration of the sites for a given connectivity.
+        
+        Parameters:
+        -----------
+            - connectivity (str) : Connectivity of the cluster.
+        
+        Returns:
+        --------
+            - float : Concentration of the sites.
+        """
+        return self.concentrations[connectivity]
+                        
+    def get_all_clusters(self, connectivity: str) -> list:
         r"""
         Return the list of all Cluster objects associated with the given connectivity.
         

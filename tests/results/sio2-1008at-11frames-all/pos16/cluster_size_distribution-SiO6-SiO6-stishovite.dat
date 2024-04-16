@@ -1,3 +1,6 @@
 # Cluster size distribution ➜ 11 frames analysed.
-      4 ➜ 1     # +/- 0.08668
-      2 ➜ 17    # +/- 0.19766
+# Size ➜ Number of clusters
+# Concentration ➜ 0.25946969696969696
+      4 ➜ 10    # +/- 0.15506
+      3 ➜ 7     # +/- 0.19382
+      2 ➜ 22    # +/- 0.28748

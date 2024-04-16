@@ -32,8 +32,10 @@ class Result:
         self.info : str = info
         self.init_frame : int = init_frame
         self.timeline : list = []
+        self.timeline_c : list = []
         self.result : float = 0.
         self.error : float = 0.
+        self.concentration : float = 0.
 
 class AverageClusterSize(Result):
     """
@@ -57,7 +59,7 @@ class AverageClusterSize(Result):
         self.average_size = 0
         self.filepath = None
     
-    def add_to_timeline(self, value) -> None:
+    def add_to_timeline(self, value, concentration) -> None:
         """
         Appends a data to the timeline.
 
@@ -66,6 +68,7 @@ class AverageClusterSize(Result):
             - value: The data to add.
         """
         self.timeline.append(value)
+        self.timeline_c.append(concentration)
     
     def calculate_average_cluster_size(self) -> None:
         """
@@ -90,6 +93,7 @@ class AverageClusterSize(Result):
         
         self.result = np.mean(self.average_size)
         self.error = np.std(self.average_size) / np.sqrt(len(self.average_size))
+        self.concentration = np.mean(self.timeline_c)
 
     def write_file_header(self, overwrite, path_to_directory, number_of_frames) -> None:
         """
@@ -109,10 +113,12 @@ class AverageClusterSize(Result):
         if not overwrite and os.path.exists(self.filepath):
             with open(self.filepath, 'a', encoding='utf-8') as output:
                 output.write(f"# Average cluster size \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Average cluster size +/- Error\n")
             output.close()
         else:
             with open(self.filepath, 'w', encoding='utf-8') as output:
                 output.write(f"# Average cluster size \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Average cluster size +/- Error\n")
             output.close()
 
     def append_results_to_file(self) -> None:
@@ -120,7 +126,7 @@ class AverageClusterSize(Result):
         Appends the result to the output file.
         """
         with open(self.filepath, 'a', encoding='utf-8') as output:
-            output.write(f"{self.result:10.6f} +/- {self.error:<10.5f} # {self.info}\n")
+            output.write(f"{self.concentration:10.6f} \u279c {self.result:10.6f} +/- {self.error:<10.5f} # {self.info}\n")
         output.close()
         
         make_lines_unique(self.filepath)
@@ -146,7 +152,7 @@ class BiggestClusterSize(Result):
         self.biggest_size = 0
         self.filepath = None
 
-    def add_to_timeline(self, value) -> None:
+    def add_to_timeline(self, value, concentration) -> None:
         """
         Appends a data point to the timeline.
 
@@ -155,6 +161,7 @@ class BiggestClusterSize(Result):
             - value: The data point to add.
         """
         self.timeline.append(value)
+        self.timeline_c.append(concentration)
 
     def calculate_biggest_cluster_size(self) -> None:
         """
@@ -169,6 +176,7 @@ class BiggestClusterSize(Result):
         
         self.result = np.mean(self.biggest_size)
         self.error  = np.std(self.biggest_size) / np.sqrt(len(self.biggest_size))
+        self.concentration = np.mean(self.timeline_c)
         
     def write_file_header(self, overwrite, path_to_directory, number_of_frames) -> None:
         """
@@ -188,10 +196,12 @@ class BiggestClusterSize(Result):
         if not overwrite and os.path.exists(self.filepath):
             with open(self.filepath, 'a', encoding='utf-8') as output:
                 output.write(f"# Biggest cluster size \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Biggest cluster size +/- Error\n")
             output.close()
         else:
             with open(self.filepath, 'w', encoding='utf-8') as output:
                 output.write(f"# Biggest cluster size \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Biggest cluster size +/- Error\n")
             output.close()
         
     def append_results_to_file(self):
@@ -199,7 +209,7 @@ class BiggestClusterSize(Result):
         Appends the result to the output file.
         """
         with open(self.filepath, 'a', encoding='utf-8') as output:
-            output.write(f"{self.result:10.5f} +/- {self.error:<10.5f} # {self.info}\n")
+            output.write(f"{self.concentration:10.6f} \u279c {self.result:10.5f} +/- {self.error:<10.5f} # {self.info}\n")
         output.close()
         
         make_lines_unique(self.filepath)
@@ -225,7 +235,7 @@ class SpanningClusterSize(Result):
         self.spanning_size = 0
         self.filepath = None
 
-    def add_to_timeline(self, value) -> None:
+    def add_to_timeline(self, value, concentration) -> None:
         """
         Appends a data point to the timeline.
 
@@ -234,6 +244,7 @@ class SpanningClusterSize(Result):
             - value: The data point to add.
         """
         self.timeline.append(value)
+        self.timeline_c.append(concentration)
 
     def calculate_spanning_cluster_size(self) -> None:
         """
@@ -248,6 +259,7 @@ class SpanningClusterSize(Result):
         
         self.result = np.mean(self.spanning_size)
         self.error  = np.std(self.spanning_size) / np.sqrt(len(self.spanning_size))
+        self.concentration = np.mean(self.timeline_c)
         
     def write_file_header(self, overwrite, path_to_directory, number_of_frames) -> None:
         """
@@ -267,10 +279,12 @@ class SpanningClusterSize(Result):
         if not overwrite and os.path.exists(self.filepath):
             with open(self.filepath, 'a', encoding='utf-8') as output:
                 output.write(f"# Spanning cluster size \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Spanning cluster size +/- Error\n")
             output.close()
         else:
             with open(self.filepath, 'w', encoding='utf-8') as output:
                 output.write(f"# Spanning cluster size \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Spanning cluster size +/- Error\n")
             output.close()
     
     def append_results_to_file(self):
@@ -278,7 +292,7 @@ class SpanningClusterSize(Result):
         Appends the result to the output file.
         """
         with open(self.filepath, 'a', encoding='utf-8') as output:
-            output.write(f"{self.result:10.5f} +/- {self.error:<10.5f} # {self.info}\n")
+            output.write(f"{self.concentration:10.6f} \u279c {self.result:10.5f} +/- {self.error:<10.5f} # {self.info}\n")
         output.close()
         
         make_lines_unique(self.filepath)
@@ -310,11 +324,12 @@ class ClusterSizeDistribution(Result):
         self.timeline = {}
         self.filepath = None
         
-    def add_to_timeline(self, frame: int, value: list) -> None:
+    def add_to_timeline(self, frame: int, value: list, concentration: float) -> None:
         """
         Appends a data point to the timeline.
         """
         self.timeline[frame] = value
+        self.timeline_c.append(concentration)
     
     def calculate_cluster_size_distribution(self) -> None:
         """
@@ -334,6 +349,7 @@ class ClusterSizeDistribution(Result):
         
         # Sort the distribution by size decreasingly
         self.distribution = dict(sorted(self.distribution.items(), key=lambda item: item[0], reverse=True))
+        self.concentration = np.mean(self.timeline_c)
                             
     def write_file_header(self, path_to_directory, number_of_frames) -> None:
         """
@@ -352,6 +368,7 @@ class ClusterSizeDistribution(Result):
         
         with open(self.filepath, 'w', encoding='utf-8') as output:
             output.write(f"# Cluster size distribution \u279c {number_of_frames} frames analysed.\n")
+            output.write("# Size \u279c Number of clusters\n")
         output.close()
     
     def append_results_to_file(self):
@@ -371,6 +388,7 @@ class ClusterSizeDistribution(Result):
                 self.distribution[size] += [0] * (max_length - len(ns))
                 
         with open(self.filepath, 'a', encoding='utf-8') as output:
+            output.write(f"# Concentration \u279c {self.concentration}\n")
             for size, ns in self.distribution.items():
                 # output.write(f"# size \u279c {size}\n")
                 output.write(f"{size:7d} \u279c {np.sum(ns):<5d} # +/- {np.std(ns)/np.sqrt(len(ns)):5.5f}\n")
@@ -402,11 +420,12 @@ class GyrationRadiusDistribution(Result):
         self.timeline = {}
         self.filepath_rgyr = None
         
-    def add_to_timeline(self, frame: int, value: list) -> None:
+    def add_to_timeline(self, frame: int, value: list, concentration: float) -> None:
         """
         Appends a data point to the timeline.
         """
         self.timeline[frame] = value
+        self.timeline_c.append(concentration)
     
     def calculate_gyration_radius_distribution(self) -> None:
         """
@@ -422,6 +441,7 @@ class GyrationRadiusDistribution(Result):
         
         # Sort the distribution_rgyr by size decreasingly
         self.distribution_rgyr = dict(sorted(self.distribution_rgyr.items(), key=lambda item: item[0], reverse=True))
+        self.concentration = np.mean(self.timeline_c)
     
     def write_file_header(self, path_to_directory, number_of_frames) -> None:
         """
@@ -440,6 +460,7 @@ class GyrationRadiusDistribution(Result):
         
         with open(self.filepath_rgyr, 'w', encoding='utf-8') as output:
             output.write(f"# Gyration radius distribution \u279c {number_of_frames} frames analysed.\n")
+            output.write("# Size \u279c Gyration radius +/- Error\n")
         output.close()
 
     def append_results_to_file(self):
@@ -459,6 +480,7 @@ class GyrationRadiusDistribution(Result):
                 self.distribution_rgyr[size] += [0.0] * (max_length - len(radii))
         
         with open(self.filepath_rgyr, 'a', encoding='utf-8') as output:
+            output.write(f"# Concentration \u279c {self.concentration}\n")
             for size, radii in self.distribution_rgyr.items():
                 if size == 0:
                     continue
@@ -507,11 +529,12 @@ class CorrelationLength(Result):
         self.timeline = {}
         self.filepath = None
     
-    def add_to_timeline(self, frame, value) -> None:
+    def add_to_timeline(self, frame, value, concentration) -> None:
         """
         Appends a data point to the timeline.
         """
         self.timeline[frame] = value
+        self.timeline_c.append(concentration)
         
     def calculate_correlation_length(self) -> None:
         r"""
@@ -558,6 +581,7 @@ class CorrelationLength(Result):
                
         self.corre_length = np.mean(list(correlation_lengths.values()))
         self.error = np.std(list(correlation_lengths.values())) / np.sqrt(n)
+        self.concentration = np.mean(self.timeline_c)
 
     def write_file_header(self, overwrite, path_to_directory, number_of_frames) -> None:
         """
@@ -577,10 +601,12 @@ class CorrelationLength(Result):
         if not overwrite and os.path.exists(self.filepath):
             with open(self.filepath, 'a', encoding='utf-8') as output:
                 output.write(f"# Correlation length \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Correlation length +/- Error\n")
             output.close()
         else:
             with open(self.filepath, 'w', encoding='utf-8') as output:
                 output.write(f"# Correlation length \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Correlation length +/- Error\n")
             output.close()
     
     def append_results_to_file(self):
@@ -589,7 +615,7 @@ class CorrelationLength(Result):
         """
         
         with open(self.filepath, 'a', encoding='utf-8') as output:
-            output.write(f"{self.corre_length:10.5f} +/- {self.error:<10.5f} # {self.info}\n")
+            output.write(f"{self.concentration:10.6f} \u279c {self.corre_length:10.5f} +/- {self.error:<10.5f} # {self.info}\n")
         output.close()
         
         make_lines_unique(self.filepath)
@@ -621,11 +647,12 @@ class OrderParameter(Result):
         self.timeline = {}
         self.filepath = None
         
-    def add_to_timeline(self, frame, value) -> None:
+    def add_to_timeline(self, frame: int, value: list, concentration: float) -> None:
         """
         Appends a data point to the timeline.
         """
         self.timeline[frame] = value
+        self.timeline_c.append(concentration)
     
     def calculate_order_parameter(self) -> None:
         """
@@ -637,6 +664,7 @@ class OrderParameter(Result):
         
         self.order_parameter = np.mean(order_parameters, axis=0)
         self.error = np.std(order_parameters, axis=0) / np.sqrt(len(order_parameters))
+        self.concentration = np.mean(self.timeline_c)
     
     def write_file_header(self, overwrite, path_to_directory, number_of_frames) -> None:
         """
@@ -656,10 +684,12 @@ class OrderParameter(Result):
         if not overwrite and os.path.exists(self.filepath):
             with open(self.filepath, 'a', encoding='utf-8') as output:
                 output.write(f"# Order parameter \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Order parameter +/- Error\n")
             output.close()
         else:
             with open(self.filepath, 'w', encoding='utf-8') as output:
                 output.write(f"# Order parameter \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Order parameter +/- Error\n")
             output.close()
     
     def append_results_to_file(self):
@@ -669,7 +699,7 @@ class OrderParameter(Result):
         
         with open(self.filepath, 'a') as output:
             for i in range(len(self.order_parameter)):
-                output.write(f"{self.order_parameter[i]:10.5f} +/- {self.error[i]:<10.5f} # {self.info} - {i+1}D\n")
+                output.write(f"{self.concentration:10.6f} \u279c {self.order_parameter[i]:10.6f} +/- {self.error[i]:<10.6f} # {self.info} - {i+1}D\n")
         output.close()
         
         make_lines_unique(self.filepath)
@@ -701,11 +731,12 @@ class PercolationProbability(Result):
         self.timeline = {}
         self.filepath = None
         
-    def add_to_timeline(self, frame, value) -> None:
+    def add_to_timeline(self, frame: int, value:list, concentration: float) -> None:
         """
         Appends a data point to the timeline.
         """
         self.timeline[frame] = value
+        self.timeline_c.append(concentration)
         
     def calculate_percolation_probability(self) -> None:
         """
@@ -717,6 +748,7 @@ class PercolationProbability(Result):
         
         self.percolation_probability = np.mean(percolation_probabilities, axis=0)
         self.error = np.std(percolation_probabilities, axis=0) / np.sqrt(len(percolation_probabilities))
+        self.concentration = np.mean(self.timeline_c)
         
     def write_file_header(self, overwrite, path_to_directory, number_of_frames) -> None:
         """
@@ -736,10 +768,12 @@ class PercolationProbability(Result):
         if not overwrite and os.path.exists(self.filepath):
             with open(self.filepath, 'a', encoding='utf-8') as output:
                 output.write(f"# Percolation probability \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Percolation probability +/- Error\n")
             output.close()
         else:
             with open(self.filepath, 'w', encoding='utf-8') as output:
                 output.write(f"# Percolation probability \u279c {number_of_frames} frames averaged.\n")
+                output.write("# Concentration \u279c Percolation probability +/- Error\n")
             output.close()
         
     def append_results_to_file(self):
@@ -749,7 +783,7 @@ class PercolationProbability(Result):
         
         with open(self.filepath, 'a') as output:
             for i in range(len(self.percolation_probability)):
-                output.write(f"{self.percolation_probability[i]:10.5f} +/- {self.error[i]:<10.5f} # {self.info} - {i+1}D\n")
+                output.write(f"{self.concentration:10.6f} \u279c {self.percolation_probability[i]:10.6f} +/- {self.error[i]:<10.6f} # {self.info} - {i+1}D\n")
         output.close()
         
         make_lines_unique(self.filepath)

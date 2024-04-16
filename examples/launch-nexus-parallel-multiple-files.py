@@ -39,6 +39,14 @@ def process_trajectory(trajectory, output, pressure):
     # Set to quiet mode after first iteration of settings
     settings.overwrite_results.set_value(False)
     
+    # Set cluster parameter 'bond' criteria
+    settings.cluster_settings.set_cluster_parameter("connectivity", ["O", "Si", "O"])
+    settings.cluster_settings.set_cluster_parameter("criteria", "bond")
+    settings.cluster_settings.set_cluster_parameter("polyhedra", [[2, 2], [2, 3], [3, 3]])
+    
+    # Run the main function
+    nexus.main(settings)
+    
     # Set cluster parameter 'distance' criteria
     settings.cluster_settings.set_cluster_parameter("connectivity", ["O", "O"])
     settings.cluster_settings.set_cluster_parameter("criteria", "distance")

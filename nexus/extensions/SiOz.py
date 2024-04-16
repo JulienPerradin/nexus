@@ -154,7 +154,7 @@ def get_default_settings(criteria="bond") -> dict:
     
     return dict_settings
 
-def calculate_concentrations(atoms) -> dict:
+def calculate_concentrations(atoms: list, criteria: str) -> dict:
     """
     Calculate the following properties.
     
@@ -184,6 +184,9 @@ def calculate_concentrations(atoms) -> dict:
     
     silicons = [atom for atom in atoms if atom.get_element() == "Si"]
     oxygens  = [atom for atom in atoms if atom.get_element() == "O" ]
+    
+    number_of_Si = len(silicons)
+    number_of_O  = len(oxygens)
     
     # Calculate the proportion of each SiOz units
     coordination_SiOz = []
@@ -232,24 +235,48 @@ def calculate_concentrations(atoms) -> dict:
             if connectivity == 2: # 2 oxygens are shared by 'silicon' and 'second_silicon'
                 silicon.number_of_edges += 1
 
-        if silicon.number_of_edges == 2:
+        if silicon.number_of_edges >= 2:
             ES_SiO6.append(silicon)
+            
+    if number_of_Si == 0: number_of_Si = 1 # Avoid division by zero
+    if number_of_O == 0: number_of_O = 1 # Avoid division by zero
     
-    dict_results = {
-        "SiO4" :  SiO4,
-        "SiO5" :  SiO5,
-        "SiO6" :  SiO6,
-        "SiO7" :  SiO7,
-        "OSi1" :  OSi1,
-        "OSi2" :  OSi2,
-        "OSi3" :  OSi3,
-        "OSi4" :  OSi4,
-        "ES_SiO6" :  ES_SiO6
+    if criteria == 'bond':
+        dict_concentrations = {
+            "SiO4-SiO4" : len(SiO4) / number_of_Si,
+            "SiO4-SiO5" : (len(SiO4) + len(SiO5)) / number_of_Si,
+            "SiO5-SiO5" : len(SiO5) / number_of_Si,
+            "SiO5-SiO6" : (len(SiO5) + len(SiO6)) / number_of_Si,
+            "SiO6-SiO6" : len(SiO6) / number_of_Si,
+            "SiO6-SiO7" : (len(SiO6) + len(SiO7)) / number_of_Si,
+            "SiO7-SiO7" : len(SiO7) / number_of_Si,
+            "SiO6-SiO6-stishovite" : len(ES_SiO6) / number_of_Si,
+            "OSi1-OSi2" : (len(OSi1) + len(OSi2)) / number_of_O,
+            "OSi2-OSi2" : len(OSi2) / number_of_O,
+            "OSi2-OSi3" : (len(OSi2) + len(OSi3)) / number_of_O,
+            "OSi3-OSi3" : len(OSi3) / number_of_O,
+            "OSi3-OSi4" : (len(OSi3) + len(OSi4)) / number_of_O,
+            "OSi4-OSi4" : len(OSi4) / number_of_O,    
+        }
+    elif criteria == 'distance':
+        dict_concentrations = {
+            "Si4-Si4" : len(SiO4) / number_of_Si,
+            "Si4-Si5" : (len(SiO4) + len(SiO5)) / number_of_Si,
+            "Si5-Si5" : len(SiO5) / number_of_Si,
+            "Si5-Si6" : (len(SiO5) + len(SiO6)) / number_of_Si,
+            "Si6-Si6" : len(SiO6) / number_of_Si,
+            "Si6-Si7" : (len(SiO6) + len(SiO7)) / number_of_Si,
+            "Si7-Si7" : len(SiO7) / number_of_Si,
+            "Si6-Si6-stishovite" : len(ES_SiO6) / number_of_Si,
+            "O1-O2" : (len(OSi1) + len(OSi2)) / number_of_O,
+            "O2-O2" : len(OSi2) / number_of_O,
+            "O2-O3" : (len(OSi2) + len(OSi3)) / number_of_O,
+            "O3-O3" : len(OSi3) / number_of_O,
+            "O3-O4" : (len(OSi3) + len(OSi4)) / number_of_O,
+            "O4-O4" : len(OSi4) / number_of_O,
         }
     
-    dict_concentrations = {}  # TODO : finish this part of the code.
-    
-    return dict_results
+    return dict_concentrations
 
 def find_extra_clusters(atoms:list, box:Box, counter_c:int, settings:object) -> None:
     r"""

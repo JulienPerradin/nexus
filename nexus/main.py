@@ -153,54 +153,59 @@ def main(settings):
         system.calculate_neighbours()
         
         # Calculate the concentrations (ie, the number of sites in the lattice)
-        system.calculate_concentrations(settings.extension.get_value())
+        dict_units = system.calculate_concentrations(settings.extension.get_value())
         
         for c in connectivities:
             system.find_clusters(c)
+            system.set_concentrations(dict_units, settings.cluster_settings.get_value())
+            
+            concentration = system.get_concentration(c)
         
             list_sizes = system.get_filtered_cluster_sizes(c)
             list_all_sizes = system.get_all_cluster_sizes(c)
             
-            results_average_cluster_size[c].add_to_timeline({i : list_sizes})
-            results_biggest_cluster_size[c].add_to_timeline({i : list_all_sizes})
-            results_spanning_cluster_size[c].add_to_timeline({i : list_sizes})
+            results_average_cluster_size[c].add_to_timeline({i : list_sizes}, concentration)
+            results_biggest_cluster_size[c].add_to_timeline({i : list_all_sizes}, concentration)
+            results_spanning_cluster_size[c].add_to_timeline({i : list_sizes}, concentration)
             
             dict_sizes = system.get_cluster_sizes_distribution(c)
             dict_rgyr = system.get_gyration_radius_distribution(c, list_sizes)
             
-            results_cluster_size_distribution[c].add_to_timeline(i, dict_sizes)
-            results_gyration_radius_distribution[c].add_to_timeline(i, dict_rgyr)
-            results_correlation_length[c].add_to_timeline(i, dict_rgyr)
+            results_cluster_size_distribution[c].add_to_timeline(i, dict_sizes, concentration)
+            results_gyration_radius_distribution[c].add_to_timeline(i, dict_rgyr, concentration)
+            results_correlation_length[c].add_to_timeline(i, dict_rgyr, concentration)
             
             order_parameter = system.calculate_order_parameter(c)
             percolation_probability = system.calculate_percolation_probability(c)
             
-            results_order_parameter[c].add_to_timeline(i, order_parameter)
-            results_percolation_probability[c].add_to_timeline(i, percolation_probability)
+            results_order_parameter[c].add_to_timeline(i, order_parameter, concentration)
+            results_percolation_probability[c].add_to_timeline(i, percolation_probability, concentration)
         
         if extra_function_to_call is not None:
             if extra_function_to_call:
                 for c in module.get_extra_connectivity(settings.cluster_settings.get_value()):
                     system.find_extra_clusters()
+                    
+                    concentration = system.get_concentration(c)
                     list_sizes = system.get_filtered_cluster_sizes(c)
                     list_all_sizes = system.get_all_cluster_sizes(c)
                     
-                    results_average_cluster_size[c].add_to_timeline({i : list_sizes})
-                    results_biggest_cluster_size[c].add_to_timeline({i : list_all_sizes})
-                    results_spanning_cluster_size[c].add_to_timeline({i : list_sizes})
+                    results_average_cluster_size[c].add_to_timeline({i : list_sizes}, concentration)
+                    results_biggest_cluster_size[c].add_to_timeline({i : list_all_sizes}, concentration)
+                    results_spanning_cluster_size[c].add_to_timeline({i : list_sizes}, concentration)
                     
                     dict_sizes = system.get_cluster_sizes_distribution(c)
                     dict_rgyr = system.get_gyration_radius_distribution(c, list_sizes)
                     
-                    results_cluster_size_distribution[c].add_to_timeline(i, dict_sizes)
-                    results_gyration_radius_distribution[c].add_to_timeline(i, dict_rgyr)
-                    results_correlation_length[c].add_to_timeline(i, dict_rgyr)
+                    results_cluster_size_distribution[c].add_to_timeline(i, dict_sizes, concentration)
+                    results_gyration_radius_distribution[c].add_to_timeline(i, dict_rgyr, concentration)
+                    results_correlation_length[c].add_to_timeline(i, dict_rgyr, concentration)
                     
                     order_parameter = system.calculate_order_parameter(c)
                     percolation_probability = system.calculate_percolation_probability(c)
                     
-                    results_order_parameter[c].add_to_timeline(i, order_parameter)
-                    results_percolation_probability[c].add_to_timeline(i, percolation_probability)
+                    results_order_parameter[c].add_to_timeline(i, order_parameter, concentration)
+                    results_percolation_probability[c].add_to_timeline(i, percolation_probability, concentration)
     
     for c in connectivities:
         results_average_cluster_size[c].calculate_average_cluster_size()
