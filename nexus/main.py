@@ -157,7 +157,7 @@ def main(settings):
         
         for c in connectivities:
             system.find_clusters(c)
-            system.set_concentrations(dict_units, settings.cluster_settings.get_value())
+            system.set_concentrations(c)
             
             concentration = system.get_concentration(c)
         
@@ -186,6 +186,8 @@ def main(settings):
                 for c in module.get_extra_connectivity(settings.cluster_settings.get_value()):
                     system.find_extra_clusters()
                     
+                    system.set_concentrations(c)
+            
                     concentration = system.get_concentration(c)
                     list_sizes = system.get_filtered_cluster_sizes(c)
                     list_all_sizes = system.get_all_cluster_sizes(c)

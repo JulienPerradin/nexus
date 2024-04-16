@@ -331,12 +331,12 @@ class System:
         
         module = importlib.import_module(f"nexus.extensions.{extension}")
         criteria = self.settings.cluster_settings.get_value()['criteria']
-        self.concentrations = module.calculate_concentrations(self.get_atoms(), criteria)
+        self.concentrations = module.calculate_concentrations(self.get_atoms(), criteria, self.settings.quiet.get_value())
     
     
     #____________CLUSTERS METHODS____________
     
-    def set_concentrations(self, dict_units: dict, cluster_settings:dict) -> None:
+    def set_concentrations(self, connectivity: str) -> None:
         r"""
         Set the concentrations of the structural units.
         
@@ -350,11 +350,11 @@ class System:
             - None.
         """
         
-        for connectivity, concentration in self.concentrations.items():
-            list_clusters = self.get_all_clusters(connectivity)
+        for connec, concentration in self.concentrations.items():
+            list_clusters = self.get_all_clusters(connec)
             for cluster in list_clusters:
                 cluster.concentration = concentration
-    
+
     def get_concentration(self, connectivity: str) -> float:
         r"""
         Return the concentration of the sites for a given connectivity.
@@ -367,6 +367,7 @@ class System:
         --------
             - float : Concentration of the sites.
         """
+        
         return self.concentrations[connectivity]
                         
     def get_all_clusters(self, connectivity: str) -> list:

@@ -154,7 +154,7 @@ def get_default_settings(criteria="bond") -> dict:
     
     return dict_settings
 
-def calculate_concentrations(atoms: list, criteria: str) -> dict:
+def calculate_concentrations(atoms: list, criteria: str, quiet: bool) -> dict:
     """
     Calculate the following properties.
     
@@ -188,6 +188,40 @@ def calculate_concentrations(atoms: list, criteria: str) -> dict:
     number_of_Si = len(silicons)
     number_of_O  = len(oxygens)
     
+    if criteria == 'bond':
+        dict_concentrations = {
+            "SiO4-SiO4" : [],
+            "SiO4-SiO5" : [],
+            "SiO5-SiO5" : [],
+            "SiO5-SiO6" : [],
+            "SiO6-SiO6" : [],
+            "SiO6-SiO7" : [],
+            "SiO7-SiO7" : [],
+            "SiO6-SiO6-stishovite" : [],
+            "OSi1-OSi2" : [],
+            "OSi2-OSi2" : [],
+            "OSi2-OSi3" : [],
+            "OSi3-OSi3" : [],
+            "OSi3-OSi4" : [],
+            "OSi4-OSi4" : [] 
+        }
+    elif criteria == 'distance':
+        dict_concentrations = {
+            "Si4-Si4" : [],
+            "Si4-Si5" : [],
+            "Si5-Si5" : [],
+            "Si5-Si6" : [],
+            "Si6-Si6" : [],
+            "Si6-Si7" : [],
+            "Si7-Si7" : [],
+            "Si6-Si6-stishovite" : [],
+            "O1-O2" : [],
+            "O2-O2" : [],
+            "O2-O3" : [],
+            "O3-O3" : [],
+            "O3-O4" : [],
+            "O4-O4" : [],
+        }
     # Calculate the proportion of each SiOz units
     coordination_SiOz = []
     for atom in silicons:
@@ -221,12 +255,74 @@ def calculate_concentrations(atoms: list, criteria: str) -> dict:
     _debug_histogram_proportion_OSik = np.histogram(coordination_OSiz, bins=[1,2,3,4,5], density=True) 
     
     # Calculate the number of edge-sharing (2 oxygens shared by 2 silicons)
-    for silicon in silicons:
+    if quiet == False:
+        progress_bar = tqdm(silicons, desc="Calculating the concentrations SiOz-SiOz sites", colour='BLUE', leave=False)
+        color_gradient = generate_color_gradient(len(silicons))
+        counter = 0
+    else:
+        progress_bar = silicons
+        
+    for silicon in progress_bar:
+        if quiet == False:
+            progress_bar.set_description(f"Calculating the concentrations SiOz-SiOz sites ...")
+            progress_bar.colour = "#%02x%02x%02x" % color_gradient[counter]
+            counter += 1
+            
         unique_bond = []
         for oxygen in [atom for atom in silicon.get_neighbours() if atom.get_element() == 'O']:
             for second_silicon in [atom for atom in oxygen.get_neighbours() if atom.get_element() == 'Si']:
                 if second_silicon.id != silicon.id:
                     unique_bond.append(second_silicon.id)
+                if silicon.coordination == 4 and second_silicon.coordination == 4:
+                    if criteria == 'bond':
+                        dict_concentrations["SiO4-SiO4"].append(silicon.id)
+                        dict_concentrations["SiO4-SiO4"].append(second_silicon.id)
+                    elif criteria == 'distance':
+                        dict_concentrations["Si4-Si4"].append(silicon.id)
+                        dict_concentrations["Si4-Si4"].append(second_silicon.id)
+                if silicon.coordination == 4 and second_silicon.coordination == 5:
+                    if criteria == 'bond':
+                        dict_concentrations["SiO4-SiO5"].append(silicon.id)
+                        dict_concentrations["SiO4-SiO5"].append(second_silicon.id)
+                    elif criteria == 'distance':
+                        dict_concentrations["Si4-Si5"].append(silicon.id)
+                        dict_concentrations["Si4-Si5"].append(second_silicon.id)
+                if silicon.coordination == 5 and second_silicon.coordination == 5:
+                    if criteria == 'bond':
+                        dict_concentrations["SiO5-SiO5"].append(silicon.id)
+                        dict_concentrations["SiO5-SiO5"].append(second_silicon.id)
+                    elif criteria == 'distance':
+                        dict_concentrations["Si5-Si5"].append(silicon.id)
+                        dict_concentrations["Si5-Si5"].append(second_silicon.id)
+                if silicon.coordination == 5 and second_silicon.coordination == 6:
+                    if criteria == 'bond':
+                        dict_concentrations["SiO5-SiO6"].append(silicon.id)
+                        dict_concentrations["SiO5-SiO6"].append(second_silicon.id)
+                    elif criteria == 'distance':
+                        dict_concentrations["Si5-Si6"].append(silicon.id)
+                        dict_concentrations["Si5-Si6"].append(second_silicon.id)
+                if silicon.coordination == 6 and second_silicon.coordination == 6:
+                    if criteria == 'bond':
+                        dict_concentrations["SiO6-SiO6"].append(silicon.id)
+                        dict_concentrations["SiO6-SiO6"].append(second_silicon.id)
+                    elif criteria == 'distance':
+                        dict_concentrations["Si6-Si6"].append(silicon.id)
+                        dict_concentrations["Si6-Si6"].append(second_silicon.id)
+                if silicon.coordination == 6 and second_silicon.coordination == 7:
+                    if criteria == 'bond':
+                        dict_concentrations["SiO6-SiO7"].append(silicon.id)
+                        dict_concentrations["SiO6-SiO7"].append(second_silicon.id)
+                    elif criteria == 'distance':
+                        dict_concentrations["Si6-Si7"].append(silicon.id)
+                        dict_concentrations["Si6-Si7"].append(second_silicon.id)
+                if silicon.coordination == 7 and second_silicon.coordination == 7:
+                    if criteria == 'bond':
+                        dict_concentrations["SiO7-SiO7"].append(silicon.id)
+                        dict_concentrations["SiO7-SiO7"].append(second_silicon.id)
+                    elif criteria == 'distance':
+                        dict_concentrations["Si7-Si7"].append(silicon.id)
+                        dict_concentrations["Si7-Si7"].append(second_silicon.id)
+                
         unique_bond = np.array(unique_bond)
         
         uniques, counts = np.unique(unique_bond, return_counts=True)
@@ -237,44 +333,78 @@ def calculate_concentrations(atoms: list, criteria: str) -> dict:
 
         if silicon.number_of_edges >= 2:
             ES_SiO6.append(silicon)
-            
+            if criteria == 'bond':
+                dict_concentrations["SiO6-SiO6-stishovite"].append(silicon.id)
+            elif criteria == 'distance':
+                dict_concentrations["Si6-Si6-stishovite"].append(silicon.id)
+    
+    if quiet == False:
+        progress_bar = tqdm(oxygens, desc="Calculating the concentrations SiOz-SiOz sites", colour='BLUE', leave=False)
+        color_gradient = generate_color_gradient(len(oxygens))
+        counter = 0
+    else:
+        progress_bar = oxygens
+        
+    for oxygen in progress_bar:
+        if quiet == False:
+            progress_bar.set_description(f"Calculating the concentrations OSiz-OSiz sites ...")
+            progress_bar.colour = "#%02x%02x%02x" % color_gradient[counter]
+            counter += 1
+        for silicon in [atom for atom in oxygen.get_neighbours() if atom.get_element() == 'Si']:
+            for second_oxygen in [atom for atom in silicon.get_neighbours() if atom.get_element() == 'O']:
+                if second_oxygen.id != oxygen.id:
+                    if oxygen.coordination == 1 and second_oxygen.coordination == 2:
+                        if criteria == 'bond':
+                            dict_concentrations["OSi1-OSi2"].append(oxygen.id)
+                            dict_concentrations["OSi1-OSi2"].append(second_oxygen.id)
+                        elif criteria == 'distance':
+                            dict_concentrations["O1-O2"].append(oxygen.id)
+                            dict_concentrations["O1-O2"].append(second_oxygen.id)
+                    if oxygen.coordination == 2 and second_oxygen.coordination == 2:
+                        if criteria == 'bond':
+                            dict_concentrations["OSi2-OSi2"].append(oxygen.id)
+                            dict_concentrations["OSi2-OSi2"].append(second_oxygen.id)
+                        elif criteria == 'distance':
+                            dict_concentrations["O2-O2"].append(oxygen.id)
+                            dict_concentrations["O2-O2"].append(second_oxygen.id)
+                    if oxygen.coordination == 2 and second_oxygen.coordination == 3:
+                        if criteria == 'bond':
+                            dict_concentrations["OSi2-OSi3"].append(oxygen.id)
+                            dict_concentrations["OSi2-OSi3"].append(second_oxygen.id)
+                        elif criteria == 'distance':
+                            dict_concentrations["O2-O3"].append(oxygen.id)
+                            dict_concentrations["O2-O3"].append(second_oxygen.id)
+                    if oxygen.coordination == 3 and second_oxygen.coordination == 3:
+                        if criteria == 'bond':
+                            dict_concentrations["OSi3-OSi3"].append(oxygen.id)
+                            dict_concentrations["OSi3-OSi3"].append(second_oxygen.id)
+                        elif criteria == 'distance':
+                            dict_concentrations["O3-O3"].append(oxygen.id)
+                            dict_concentrations["O3-O3"].append(second_oxygen.id)
+                    if oxygen.coordination == 3 and second_oxygen.coordination == 4:
+                        if criteria == 'bond':
+                            dict_concentrations["OSi3-OSi4"].append(oxygen.id)
+                            dict_concentrations["OSi3-OSi4"].append(second_oxygen.id)
+                        elif criteria == 'distance':
+                            dict_concentrations["O3-O4"].append(oxygen.id)
+                            dict_concentrations["O3-O4"].append(second_oxygen.id)
+                    if oxygen.coordination == 4 and second_oxygen.coordination == 4:
+                        if criteria == 'bond':
+                            dict_concentrations["OSi4-OSi4"].append(oxygen.id)
+                            dict_concentrations["OSi4-OSi4"].append(second_oxygen.id)
+                        elif criteria == 'distance':
+                            dict_concentrations["O4-O4"].append(oxygen.id)
+                            dict_concentrations["O4-O4"].append(second_oxygen.id)
+    
     if number_of_Si == 0: number_of_Si = 1 # Avoid division by zero
     if number_of_O == 0: number_of_O = 1 # Avoid division by zero
     
-    if criteria == 'bond':
-        dict_concentrations = {
-            "SiO4-SiO4" : len(SiO4) / number_of_Si,
-            "SiO4-SiO5" : (len(SiO4) + len(SiO5)) / number_of_Si,
-            "SiO5-SiO5" : len(SiO5) / number_of_Si,
-            "SiO5-SiO6" : (len(SiO5) + len(SiO6)) / number_of_Si,
-            "SiO6-SiO6" : len(SiO6) / number_of_Si,
-            "SiO6-SiO7" : (len(SiO6) + len(SiO7)) / number_of_Si,
-            "SiO7-SiO7" : len(SiO7) / number_of_Si,
-            "SiO6-SiO6-stishovite" : len(ES_SiO6) / number_of_Si,
-            "OSi1-OSi2" : (len(OSi1) + len(OSi2)) / number_of_O,
-            "OSi2-OSi2" : len(OSi2) / number_of_O,
-            "OSi2-OSi3" : (len(OSi2) + len(OSi3)) / number_of_O,
-            "OSi3-OSi3" : len(OSi3) / number_of_O,
-            "OSi3-OSi4" : (len(OSi3) + len(OSi4)) / number_of_O,
-            "OSi4-OSi4" : len(OSi4) / number_of_O,    
-        }
-    elif criteria == 'distance':
-        dict_concentrations = {
-            "Si4-Si4" : len(SiO4) / number_of_Si,
-            "Si4-Si5" : (len(SiO4) + len(SiO5)) / number_of_Si,
-            "Si5-Si5" : len(SiO5) / number_of_Si,
-            "Si5-Si6" : (len(SiO5) + len(SiO6)) / number_of_Si,
-            "Si6-Si6" : len(SiO6) / number_of_Si,
-            "Si6-Si7" : (len(SiO6) + len(SiO7)) / number_of_Si,
-            "Si7-Si7" : len(SiO7) / number_of_Si,
-            "Si6-Si6-stishovite" : len(ES_SiO6) / number_of_Si,
-            "O1-O2" : (len(OSi1) + len(OSi2)) / number_of_O,
-            "O2-O2" : len(OSi2) / number_of_O,
-            "O2-O3" : (len(OSi2) + len(OSi3)) / number_of_O,
-            "O3-O3" : len(OSi3) / number_of_O,
-            "O3-O4" : (len(OSi3) + len(OSi4)) / number_of_O,
-            "O4-O4" : len(OSi4) / number_of_O,
-        }
+    # Calculate the concentrations of each connectivity
+    for key, value in dict_concentrations.items():
+        if key[0] == 'S':
+            dict_concentrations[key] = len(np.unique(value)) / number_of_Si 
+        elif key[0] == 'O':
+            dict_concentrations[key] = len(np.unique(value)) / number_of_O
     
     return dict_concentrations
 
