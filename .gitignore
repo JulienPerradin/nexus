@@ -4,6 +4,7 @@ old/
 build/
 nexus_cat.egg-info/
 dist/
+archive_dist/
 tests/results/quick-test/
 reference-check/
 nexus_test/
