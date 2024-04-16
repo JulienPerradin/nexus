@@ -154,7 +154,7 @@ def get_default_settings(criteria="bond") -> dict:
     
     return dict_settings
 
-def calculate_structural_units(atoms) -> dict:
+def calculate_concentrations(atoms) -> dict:
     """
     Calculate the following properties.
     
@@ -163,7 +163,7 @@ def calculate_structural_units(atoms) -> dict:
         - SiO4      : list of SiO4 tetrahedra
         - SiO5      : list of SiO5 pentahedra
         - SiO6      : list of SiO6 octahedra
-        - SiO7      : list of SiO7 eptahedra 
+        - SiO7      : list of SiO7 heptahedra 
         - OSi1      : list of OSi1
         - OSi2      : list of OSi2
         - OSi3      : list of OSi3
@@ -246,6 +246,8 @@ def calculate_structural_units(atoms) -> dict:
         "OSi4" :  OSi4,
         "ES_SiO6" :  ES_SiO6
         }
+    
+    dict_concentrations = {}  # TODO : finish this part of the code.
     
     return dict_results
 

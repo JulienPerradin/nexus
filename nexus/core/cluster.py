@@ -10,7 +10,7 @@ class Cluster:
     r"""
     Represents a cluster of atoms within a system.
 
-    Attributes:
+    Attributes: #TODO: update the attributes
     -----------
         - atoms (list) : List of Atom objects belonging to the cluster.
         - box (Box) : Box object representing the simulation box.
@@ -53,7 +53,7 @@ class Cluster:
         # Initialize Cluster object with the provided information in argument.
         self.atoms : list = atoms if atoms is not None else []  # list of Atom objects belonging to the cluster
         self.box : Box = box                                    # Box object
-        self.connectivity : str = connectivity                  # connectivity of connectivity of the cluster
+        self.connectivity : str = connectivity                  # type of connectivity of the cluster
         self.root_id : int = root_id                            # Atom id that is the root of cluster
         self.frame : int = frame                                # frame of the trajectory
         self.size : int = size                                  # size of cluster (number of atoms)
@@ -66,6 +66,7 @@ class Cluster:
         self.gyration_radius : float = 0.0      # Gyration radius of the cluster
         self.order_parameter : list = [0.0] * 3 # Order parameter of the cluster [1d value, 2d value, 3d value]
         self.number_of_nodes : int = 0          # Number of nodes in all clusters of the same connectivity
+        self.concentration : float = 0.0        # Concentration of the 
         
     def add_atom(self, atom) -> None:
         r"""
