@@ -12,7 +12,7 @@ class Settings:
 
     Attributes:
     ----------
-        - name_of_the_project (Parameter): Name of the project used for the output directory.
+        - project_name (Parameter): Name of the project used for the output directory.
         - export_directory (Parameter): Parent directory where the output files will be saved.
         - build_fancy_recaps (Parameter): Whether to build fancy recaps of the results into a single file.
         - build_fancy_plots (Parameter): Whether to build fancy plots of the results into a single file.
@@ -59,7 +59,7 @@ class Settings:
         -----------
             - extension (str): The extension of the project.
         """
-        self.name_of_the_project : Parameter = Parameter("name_of_the_project", "default")          # Name of the project that will be used for the output directory
+        self.project_name : Parameter = Parameter("project_name", "default")                        # Name of the project that will be used for the output directory
         self.export_directory : Parameter = Parameter("export_directory", "export")                 # Parent directory where the output files will be saved in the project directory
         self._output_directory : str = ''                                                           # Output directory (hidden attribute)
         self.build_fancy_recaps : Parameter = Parameter("build_fancy_recaps", False)                # Build fancy recaps of the results into a single file

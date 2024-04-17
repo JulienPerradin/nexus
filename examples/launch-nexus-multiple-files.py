@@ -56,7 +56,7 @@ for i, trajectory in progress_bar:
         settings.quiet.set_value(True)
 
     # Set various parameters
-    settings.name_of_the_project.set_value(output)
+    settings.project_name.set_value(output)
     settings.extension.set_value("SiOz")
     settings.export_directory.set_value(f"tests/results/sio2-1008at-11frames-all")
     settings.path_to_xyz_file.set_value(trajectory)

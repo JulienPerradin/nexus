@@ -12,7 +12,7 @@ trajectory = "tests/inputs/SiO2/1008/sio2-1008at-1frame/pos20.xyz"
 settings = nexus.settings.Settings(extension="SiOz")
 
 # Set project name, this will be used to name the output directory in the export directory
-settings.name_of_the_project.set_value('quick-test')
+settings.project_name.set_value('quick-test')
 
 # Set extension
 settings.extension.set_value("SiOz")
@@ -39,8 +39,8 @@ settings.header.set_value(2)
 # /!\ This value must be the same as the number of atoms in the XYZ file.
 #     If the number of atoms is not provided, or the value provided is wrong, the code will crash.
 settings.structure.set_value([
-                {"element": "Si", "alias": 2, "number": 336},
-                {"element": "O" , "alias": 1, "number": 672},
+                {"element": "Si", "number": 336},
+                {"element": "O" , "number": 672},
             ])
 
 # Set temperature in Kelvin (optional but recommended for the recap. of the results)

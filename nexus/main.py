@@ -29,7 +29,7 @@ def main(settings):
         None
     """
     # Build the output directory
-    new_directory = os.path.join(settings.export_directory.get_value(), settings.name_of_the_project.get_value())
+    new_directory = os.path.join(settings.export_directory.get_value(), settings.project_name.get_value())
     
     settings._output_directory = new_directory
     

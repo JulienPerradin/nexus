@@ -9,7 +9,7 @@ def process_trajectory(trajectory, output, pressure):
     settings.quiet.set_value(True)
     
     # Set output file name
-    settings.name_of_the_project.set_value(output)
+    settings.project_name.set_value(output)
     
     # Set various parameters
     settings.extension.set_value("SiOz")

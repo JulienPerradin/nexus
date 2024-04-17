@@ -8,7 +8,7 @@ trajectory = "tests/inputs/1008/sio2-1008at-1frame/pos10.xyz"
 settings = nexus.settings.Settings(extension="SiOz")
 
 # Set project name
-settings.name_of_the_project.set_value('pos10')
+settings.project_name.set_value('pos10')
 
 # Set extension
 settings.extension.set_value("SiOz")
